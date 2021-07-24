@@ -12,10 +12,29 @@ import {
   Dimensions,
 } from 'react-native';
 
+import {Modal} from '../../components';
+
 const colorPrimary = '#1DA1F2';
 const {height, width} = Dimensions.get('window');
 
 export default class index extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      content: false,
+    };
+  }
+
+  belum_dibuat = () => {
+    this.setState(previousState => ({content: !previousState.content}));
+    setTimeout(() => {
+      this.setState(previousState => ({
+        content: !previousState.content,
+      }));
+    }, 2000);
+  };
+
   componentDidMount() {
     StatusBar.setHidden(false);
   }
@@ -51,7 +70,8 @@ export default class index extends Component {
               fontFamily: 'Poppins-Regular',
               fontSize: 15,
               color: colorPrimary,
-            }}>
+            }}
+            onPress={() => this.belum_dibuat()}>
             Daftar
           </Text>
         </View>
@@ -92,7 +112,9 @@ export default class index extends Component {
         </View>
 
         <View style={styles.bottom}>
-          <TouchableOpacity style={styles.buttonMasuk}>
+          <TouchableOpacity
+            style={styles.buttonMasuk}
+            onPress={() => this.belum_dibuat()}>
             <Text
               style={{
                 fontFamily: 'Poppins-Medium',
@@ -103,6 +125,18 @@ export default class index extends Component {
             </Text>
           </TouchableOpacity>
         </View>
+
+        {
+          // Display the modal in screen when state object "modal" is true.
+          // Hide the modal in screen when state object "modal" is false.
+          this.state.content ? (
+            <Modal
+              visibility={true}
+              message="Halaman belum dibuat"
+              icon={require('../../../assets/icons/sad.png')}
+            />
+          ) : null
+        }
       </View>
     );
   }

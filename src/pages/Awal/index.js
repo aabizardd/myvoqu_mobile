@@ -9,12 +9,31 @@ import {
   Dimensions,
 } from 'react-native';
 
+import {Modal} from '../../components';
+
 const {height, width} = Dimensions.get('window');
 const colorPrimary = '#1DA1F2';
 export default class Awal extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      content: false,
+    };
+  }
+
   componentDidMount() {
     StatusBar.setHidden(false);
   }
+
+  belum_dibuat = () => {
+    this.setState(previousState => ({content: !previousState.content}));
+    setTimeout(() => {
+      this.setState(previousState => ({
+        content: !previousState.content,
+      }));
+    }, 2000);
+  };
 
   render() {
     return (
@@ -34,7 +53,9 @@ export default class Awal extends Component {
             }}>
             Menghafalkan Alquran Semudah Tersenyum Dengan Gerakan Dan Video.
           </Text>
-          <TouchableOpacity style={styles.btnBuatAkun}>
+          <TouchableOpacity
+            style={styles.btnBuatAkun}
+            onPress={() => this.belum_dibuat()}>
             <Text
               style={{
                 fontFamily: 'Poppins-Regular',
@@ -68,6 +89,18 @@ export default class Awal extends Component {
             Masuk
           </Text>
         </View>
+
+        {
+          // Display the modal in screen when state object "modal" is true.
+          // Hide the modal in screen when state object "modal" is false.
+          this.state.content ? (
+            <Modal
+              visibility={true}
+              message="Halaman belum dibuat"
+              icon={require('../../../assets/icons/sad.png')}
+            />
+          ) : null
+        }
       </View>
     );
   }
@@ -80,6 +113,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 15,
+    // position: 'absolute',
   },
   quranKu: {
     textAlign: 'center',
@@ -91,7 +125,7 @@ const styles = StyleSheet.create({
   },
   buatAkun: {
     alignItems: 'center',
-
+    position: 'absolute',
     // backgroundColor: 'red',
   },
   btnBuatAkun: {

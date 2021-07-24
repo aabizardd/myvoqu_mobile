@@ -94,7 +94,11 @@ export default class LupaPassword extends Component {
           // Display the modal in screen when state object "modal" is true.
           // Hide the modal in screen when state object "modal" is false.
           this.state.content ? (
-            <Modal visibility={true} message="Kode OTP berhasil dikirim" />
+            <Modal
+              visibility={true}
+              message="Kode OTP berhasil dikirim"
+              icon={require('../../../assets/icons/success.png')}
+            />
           ) : null
         }
       </View>

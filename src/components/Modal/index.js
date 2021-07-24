@@ -46,7 +46,7 @@ const ModalPoup = ({visible, children}) => {
   );
 };
 
-const Detail = ({visibility, message}) => {
+const Detail = ({visibility, message, icon}) => {
   const [visible, setVisible] = React.useState(visibility);
 
   return (
@@ -69,10 +69,10 @@ const Detail = ({visibility, message}) => {
         </View>
         <View style={{alignItems: 'center'}}>
           <Image
-            source={require('../../../assets/icons/success.png')}
+            source={icon}
             style={{
-              width: 50,
-              height: 50,
+              width: 70,
+              height: 70,
               // backgroundColor: 'red',
               borderRadius: 1000,
             }}
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
+
     alignItems: 'center',
   },
   modalContainer: {
