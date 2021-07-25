@@ -1,4 +1,11 @@
-import {faArrowLeft, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowLeft,
+  faEye,
+  faEyeSlash,
+  faLock,
+  faPlus,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import React, {Component} from 'react';
 import {
@@ -13,16 +20,31 @@ import {
 } from 'react-native';
 
 import {Modal} from '../../components';
+import TouchID from 'react-native-touch-id';
 
 const colorPrimary = '#1DA1F2';
 const {height, width} = Dimensions.get('window');
 
-export default class index extends Component {
+const optionalConfigObject = {
+  title: 'Authentication Required', // Android
+  imageColor: '#e00606', // Android
+  imageErrorColor: '#ff0000', // Android
+  sensorDescription: 'Touch sensor', // Android
+  sensorErrorDescription: 'Failed', // Android
+  cancelText: 'Cancel', // Android
+  fallbackLabel: 'Show Passcode', // iOS (if empty, then label is hidden)
+  unifiedErrors: false, // use unified error messages (default false)
+  passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
+};
+
+export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       content: false,
+      contentSidikJari: false,
+      showPassword: true,
     };
   }
 
@@ -38,6 +60,26 @@ export default class index extends Component {
   componentDidMount() {
     StatusBar.setHidden(false);
   }
+
+  _pressHandler = () => {
+    TouchID.authenticate(
+      'to demo this react-native component',
+      optionalConfigObject,
+    )
+      .then(success => {
+        this.setState(previousState => ({
+          contentSidikJari: !previousState.contentSidikJari,
+        }));
+        setTimeout(() => {
+          this.setState(previousState => ({
+            contentSidikJari: !previousState.contentSidikJari,
+          }));
+        }, 2000);
+      })
+      .catch(error => {
+        AlertIOS.alert('Authentication Failed');
+      });
+  };
 
   render() {
     return (
@@ -61,6 +103,7 @@ export default class index extends Component {
               fontFamily: 'BalooDa2-Bold',
               fontSize: 25,
               color: colorPrimary,
+              marginLeft: 20,
             }}>
             MyVoQu
           </Text>
@@ -81,35 +124,99 @@ export default class index extends Component {
             Masuk ke MyVoQu
           </Text>
 
-          <TextInput
-            placeholder="Telepon atau alamat email"
-            placeholderTextColor="#8E8E8E"
-            style={[styles.textInput, {marginTop: 30}]}
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+              // backgroundColor: 'red',
+              marginTop: 10,
+            }}>
+            <TextInput
+              placeholder="Telepon atau alamat email"
+              placeholderTextColor="#8E8E8E"
+              style={[styles.textInput, {paddingLeft: 10, paddingTop: 20}]}
+            />
+          </View>
 
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor="#8E8E8E"
-            style={[styles.textInput, {marginTop: 15}]}
-            secureTextEntry={true}
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+              // backgroundColor: 'red',
+              marginTop: 10,
+            }}>
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor="#8E8E8E"
+              style={[styles.textInput, {paddingLeft: 10, paddingTop: 20}]}
+              secureTextEntry={this.state.showPassword}
+              onChangeText={password => this.setState({password})}
+            />
+
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                top: 0,
+
+                right: 0,
+                bottom: 0,
+                padding: 10,
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+                // backgroundColor: 'red',
+              }}
+              onPress={() =>
+                this.setState({showPassword: !this.state.showPassword})
+              }>
+              {this.state.showPassword == false ? (
+                <FontAwesomeIcon
+                  icon={faEye}
+                  size={20}
+                  color={colorPrimary}
+                  // style={{display: 'flex'}}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faEyeSlash}
+                  size={20}
+                  color={colorPrimary}
+                  // style={{display: 'flex'}}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
 
           <Text
             style={{
-              // marginTop: 100,
               fontFamily: 'Poppins-Medium',
               fontSize: 12,
               color: '#8E8E8E',
-              // backgroundColor: 'red',
               padding: 10,
-              position: 'absolute',
+              marginTop: 10,
               alignSelf: 'center',
-              bottom: 0,
+              // backgroundColor: 'red',
             }}
             onPress={() => this.props.navigation.navigate('LupaPassword')}>
             Lupa kata sandi?
           </Text>
         </View>
+
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 70,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={this._pressHandler}>
+          <Image
+            source={require('../../../assets/icons/fingerPrint.png')}
+            style={{
+              width: 70,
+              height: 70,
+            }}
+          />
+        </TouchableOpacity>
 
         <View style={styles.bottom}>
           <TouchableOpacity
@@ -137,6 +244,18 @@ export default class index extends Component {
             />
           ) : null
         }
+
+        {
+          // Display the modal in screen when state object "modal" is true.
+          // Hide the modal in screen when state object "modal" is false.
+          this.state.contentSidikJari ? (
+            <Modal
+              visibility={true}
+              message="Sidik jari terbaca"
+              icon={require('../../../assets/icons/thumb.png')}
+            />
+          ) : null
+        }
       </View>
     );
   }
@@ -147,7 +266,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     flexDirection: 'row',
-    // backgroundColor: 'red',
     justifyContent: 'space-between',
     width: '100%',
     marginTop: 50,
@@ -159,7 +277,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 150,
     // backgroundColor: 'red',
-    height: height / 3.5,
+    height: height,
     width: '100%',
   },
   textInput: {

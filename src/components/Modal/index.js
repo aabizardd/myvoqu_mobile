@@ -71,10 +71,11 @@ const Detail = ({visibility, message, icon}) => {
           <Image
             source={icon}
             style={{
+              // flex: 1,
               width: 70,
               height: 70,
+              resizeMode: 'contain',
               // backgroundColor: 'red',
-              borderRadius: 1000,
             }}
           />
         </View>

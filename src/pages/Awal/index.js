@@ -35,42 +35,47 @@ export default class Awal extends Component {
     }, 2000);
   };
 
-  render() {
+  header = () => {
     return (
-      <View style={styles.page}>
-        <StatusBar
-          translucent
-          barStyle="dark-content"
-          backgroundColor="rgba(0,0,0,0)"
-        />
+      <View style={styles.header}>
         <Text style={styles.quranKu}> MyVoQu </Text>
+      </View>
+    );
+  };
 
-        <View style={styles.buatAkun}>
+  isi = () => {
+    return (
+      <View style={styles.buatAkun}>
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            fontSize: 17,
+            width: '100%',
+            textAlign: 'left',
+          }}>
+          Menghafalkan Alquran Semudah Tersenyum Dengan Gerakan Dan Video.
+        </Text>
+        <TouchableOpacity
+          style={styles.btnBuatAkun}
+          onPress={() => this.belum_dibuat()}>
           <Text
             style={{
-              fontFamily: 'Poppins-Medium',
-              fontSize: 17,
+              fontFamily: 'Poppins-Regular',
+              fontSize: 16,
+              textAlign: 'center',
+              color: 'white',
             }}>
-            Menghafalkan Alquran Semudah Tersenyum Dengan Gerakan Dan Video.
+            Buat Akun
           </Text>
-          <TouchableOpacity
-            style={styles.btnBuatAkun}
-            onPress={() => this.belum_dibuat()}>
-            <Text
-              style={{
-                fontFamily: 'Poppins-Regular',
-                fontSize: 16,
-                textAlign: 'center',
-                color: 'white',
-              }}>
-              Buat Akun
-            </Text>
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
-        {/* <FontAwesomeIcon icon={faPlus} color={'orange'} size={30} /> */}
-
-        <View style={styles.textBottom}>
+  bottom = () => {
+    return (
+      <View style={styles.textBottom}>
+        <View style={{flexDirection: 'row', position: 'absolute', bottom: 15}}>
           <Text
             style={{
               fontFamily: 'Poppins-Regular',
@@ -89,16 +94,33 @@ export default class Awal extends Component {
             Masuk
           </Text>
         </View>
+      </View>
+    );
+  };
+
+  render() {
+    return (
+      <View style={styles.page}>
+        <StatusBar
+          translucent
+          barStyle="dark-content"
+          backgroundColor="rgba(0,0,0,0)"
+        />
+        {this.header()}
+        {this.isi()}
+        {this.bottom()}
 
         {
           // Display the modal in screen when state object "modal" is true.
           // Hide the modal in screen when state object "modal" is false.
           this.state.content ? (
-            <Modal
-              visibility={true}
-              message="Halaman belum dibuat"
-              icon={require('../../../assets/icons/sad.png')}
-            />
+            <View style={{position: 'absolute'}}>
+              <Modal
+                visibility={true}
+                message="Halaman belum dibuat"
+                icon={require('../../../assets/icons/sad.png')}
+              />
+            </View>
           ) : null
         }
       </View>
@@ -110,36 +132,43 @@ const styles = StyleSheet.create({
   page: {
     flex: 1,
     backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 15,
-    // position: 'absolute',
+    paddingHorizontal: 15,
+    flexDirection: 'column',
+  },
+  header: {
+    // backgroundColor: 'red',
+    marginTop: 0,
+    flex: 1,
   },
   quranKu: {
     textAlign: 'center',
     fontFamily: 'BalooDa2-Bold',
     fontSize: 30,
     color: colorPrimary,
-    top: 40,
-    position: 'absolute',
+    paddingTop: 40,
+
+    // position: 'absolute',
   },
   buatAkun: {
-    alignItems: 'center',
-    position: 'absolute',
     // backgroundColor: 'red',
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'yellow',
   },
   btnBuatAkun: {
-    marginTop: 20,
+    marginTop: 10,
     backgroundColor: colorPrimary,
-    width: width - 40,
-    padding: 10,
     borderRadius: 40,
+    padding: 10,
+    width: '100%',
   },
   textBottom: {
-    position: 'absolute',
-    bottom: 10,
-    left: 0,
-    marginLeft: 15,
     flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    // backgroundColor: 'skyblue',
   },
 });

@@ -12,6 +12,10 @@ target 'myvoqu_new' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-fingerprint-scanner', :path => '../node_modules/react-native-fingerprint-scanner'
+
+  pod 'TouchID', :path => '../node_modules/react-native-touch-id'
+
   target 'myvoqu_newTests' do
     inherit! :complete
     # Pods for testing

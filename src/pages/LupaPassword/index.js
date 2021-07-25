@@ -58,8 +58,8 @@ export default class LupaPassword extends Component {
             style={{
               fontFamily: 'Poppins-Medium',
               fontSize: 18,
-              color: '#383838',
-              marginLeft: 30,
+              color: colorPrimary,
+              marginLeft: 20,
             }}>
             Lupa Password
           </Text>
@@ -111,20 +111,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     flexDirection: 'row',
+    // backgroundColor: 'red',
     width: '100%',
-    marginTop: 50,
+    paddingTop: 50,
     paddingHorizontal: 15,
     alignItems: 'center',
-    // backgroundColor: 'red',
-    paddingBottom: 10,
-    borderBottomColor: '#F2F2F2',
-    borderBottomWidth: 1,
   },
   login: {
     paddingHorizontal: 15,
     position: 'absolute',
-    top: 110,
-    // backgroundColor: 'red',
+    top: 120,
     height: height / 3.5,
     width: '100%',
   },
@@ -135,11 +131,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     fontSize: 12,
     borderRadius: 40,
-    height: 40,
+    height: 45,
     paddingHorizontal: 20,
-    paddingVertical: 10,
     color: 'black',
-    marginTop: 10,
+    marginTop: 15,
     //   backgroundColor: 'red',
   },
   btnCari: {
